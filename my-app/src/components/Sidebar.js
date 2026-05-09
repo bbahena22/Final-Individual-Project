@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, StickyNote, CheckSquare, Star, ChevronDown, ChevronRight, MoreHorizontal, Edit2, Trash2, Plus, Copy, Menu } from 'lucide-react';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -18,26 +18,6 @@ function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const containerRef = useRef(null);
-
-  useEffect(() => {
-    function onGlobalClick() {
-      if (ctx.visible) setCtx({ visible: false, x: 0, y: 0, item: null, type: null });
-    }
-
-    function onEscape(e) {
-      if (e.key === 'Escape') onGlobalClick();
-    }
-
-    window.addEventListener('click', onGlobalClick);
-    window.addEventListener('contextmenu', onGlobalClick);
-    window.addEventListener('keydown', onEscape);
-
-    return () => {
-      window.removeEventListener('click', onGlobalClick);
-      window.removeEventListener('contextmenu', onGlobalClick);
-      window.removeEventListener('keydown', onEscape);
-    };
-  }, [ctx.visible]);
 
   const onContext = (e, item, type) => {
     e.preventDefault();
@@ -115,12 +95,32 @@ function Sidebar() {
     setCtx({ visible: false, x: 0, y: 0, item: null, type: null });
   };
 
-  const expandFolderForPage = (pageId) => {
+  const expandFolderForPage = useCallback((pageId) => {
     const page = pages.find((p) => p.id === pageId);
     if (page?.parentId) {
       setExpandedFolders((s) => ({ ...s, [page.parentId]: true }));
     }
-  };
+  }, [pages]);
+
+  useEffect(() => {
+    function onGlobalClick() {
+      if (ctx.visible) setCtx({ visible: false, x: 0, y: 0, item: null, type: null });
+    }
+
+    function onEscape(e) {
+      if (e.key === 'Escape') onGlobalClick();
+    }
+
+    window.addEventListener('click', onGlobalClick);
+    window.addEventListener('contextmenu', onGlobalClick);
+    window.addEventListener('keydown', onEscape);
+
+    return () => {
+      window.removeEventListener('click', onGlobalClick);
+      window.removeEventListener('contextmenu', onGlobalClick);
+      window.removeEventListener('keydown', onEscape);
+    };
+  }, [ctx.visible, expandFolderForPage]);
 
   const createFolder = () => {
     openNameDialog({
@@ -198,7 +198,7 @@ function Sidebar() {
 
     const pageId = Number(match[1]);
     expandFolderForPage(pageId);
-  }, [location.pathname, pages]);
+  }, [location.pathname, expandFolderForPage]);
 
   const renderFolderTree = (folderId) => {
     const folder = folders.find((f) => f.id === folderId);

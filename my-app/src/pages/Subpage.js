@@ -28,9 +28,6 @@ function Subpage() {
   const [leftSidebarWidth, setLeftSidebarWidth] = useState(280);
   const [rightSidebarWidth, setRightSidebarWidth] = useState(280);
   const [resizing, setResizing] = useState(null);
-  const [leftNotes, setLeftNotes] = useState(['Enter text or type "/" for commands']);
-  const [rightNotes, setRightNotes] = useState(['Enter text or type "/" for commands']);
-  const editorRef = useRef(null);
   const containerRef = useRef(null);
   const loadedPageId = useRef(null);
   const saveTimerRef = useRef(null);
@@ -170,52 +167,6 @@ function Subpage() {
     );
   }
 
-  const addTextBlock = () => {
-    const b = { id: Date.now(), type: 'text', text: '' };
-    setBlocks((s) => [...s, b]);
-    try {
-      if (editorRef.current && typeof editorRef.current.insertText === 'function') {
-        editorRef.current.insertText('');
-      } else if (editorRef.current && typeof editorRef.current.insert === 'function') {
-        editorRef.current.insert({ type: 'paragraph', children: [{ text: '' }] });
-      }
-    } catch (e) {
-      // ignore
-    }
-  };
-
-  const addImageBlock = () => {
-    const url = window.prompt('Image URL');
-    if (!url) return;
-    const b = { id: Date.now(), type: 'image', src: url };
-    setBlocks((s) => [...s, b]);
-    try {
-      if (editorRef.current && typeof editorRef.current.insertImage === 'function') {
-        editorRef.current.insertImage(url);
-      } else if (editorRef.current && typeof editorRef.current.insert === 'function') {
-        editorRef.current.insert({ type: 'image', src: url });
-      }
-    } catch (e) {
-      // ignore
-    }
-  };
-
-  const clearBackground = () => setBackground('');
-
-  const updateBlock = (id, patch) => setBlocks((s) => s.map((b) => (b.id === id ? { ...b, ...patch } : b)));
-
-  const removeBlock = (id) => setBlocks((s) => s.filter((b) => b.id !== id));
-
-  const changeFont = (font) => setDefaultFont(font || 'inherit');
-
-  const addLeftNote = () => {
-    setLeftNotes((current) => [...current, 'Enter text or type "/" for commands']);
-  };
-
-  const addRightNote = () => {
-    setRightNotes((current) => [...current, 'Enter text or type "/" for commands']);
-  };
-
   const handleBlocknoteChange = (val) => {
     let text = '';
 
@@ -253,29 +204,6 @@ function Subpage() {
     reader.onload = (event) => {
       const dataUrl = event.target?.result;
       if (typeof dataUrl === 'string') setBackground(dataUrl);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleImageFileInsert = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const dataUrl = ev.target?.result;
-      if (typeof dataUrl === 'string') {
-        const b = { id: Date.now(), type: 'image', src: dataUrl };
-        setBlocks((s) => [...s, b]);
-        try {
-          if (editorRef.current && typeof editorRef.current.insertImage === 'function') {
-            editorRef.current.insertImage(dataUrl);
-          } else if (editorRef.current && typeof editorRef.current.insert === 'function') {
-            editorRef.current.insert({ type: 'image', src: dataUrl });
-          }
-        } catch (err) {
-          // ignore
-        }
-      }
     };
     reader.readAsDataURL(file);
   };
