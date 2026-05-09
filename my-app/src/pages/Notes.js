@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Search } from 'lucide-react';
 import Layout from '../components/Layout';
+import NoteContentPreview from '../components/NoteContentPreview';
 
 function Notes({ notes, setNotes }) {
   const navigate = useNavigate();
@@ -74,9 +75,10 @@ function Notes({ notes, setNotes }) {
                 </button>
               </div>
 
-              <p className="text-black/70 line-clamp-3">
-                {note.content || 'No content yet...'}
-              </p>
+              <NoteContentPreview
+                html={note.content}
+                className="text-black/70 line-clamp-3 text-sm whitespace-normal max-w-none"
+              />
 
               <button
                 onClick={() => navigate(`/note/${note.id}`)}

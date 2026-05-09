@@ -1,0 +1,40 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies and build
+        working-directory: ./my-app
+        run: |
+          npm ci
+          npm run build
+
+      - id: determine_dir
+        name: Determine publish directory
+        run: |
+          if [ -d "my-app/build" ]; then echo "dir=my-app/build" >> $GITHUB_OUTPUT; 
+          elif [ -d "my-app/dist" ]; then echo "dir=my-app/dist" >> $GITHUB_OUTPUT; 
+          else echo "dir=my-app/build" >> $GITHUB_OUTPUT; fi
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ steps.determine_dir.outputs.dir }}
+          publish_branch: gh-pages
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com

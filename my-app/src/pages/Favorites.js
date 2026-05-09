@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
+import NoteContentPreview from '../components/NoteContentPreview';
 
 function Favorites({ notes }) {
   const favorites = notes.filter((note) => note.favorite);
@@ -13,7 +14,10 @@ function Favorites({ notes }) {
           {favorites.map((note) => (
             <div key={note.id} className="bg-white p-5 rounded-2xl shadow border border-gray-300">
               <h3 className="font-bold text-lg text-black">{note.title}</h3>
-              <p className="text-black/70 mt-2">{note.content}</p>
+              <NoteContentPreview
+                html={note.content}
+                className="text-black/70 mt-2 text-sm whitespace-normal max-w-none"
+              />
             </div>
           ))}
         </div>

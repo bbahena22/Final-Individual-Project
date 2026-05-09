@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
+import NotesEditor from '../components/NotesEditor';
 
 function NoteEditor({ notes, setNotes }) {
   const { id } = useParams();
@@ -45,12 +46,12 @@ function NoteEditor({ notes, setNotes }) {
           className="w-full text-4xl font-bold bg-white text-black outline-none border border-gray-300 rounded-xl px-4 py-3"
         />
 
-        <textarea
-          value={note.content}
-          onChange={(e) => updateNote('content', e.target.value)}
-          placeholder="Start typing your note..."
-          className="w-full min-h-[400px] bg-white text-black rounded-2xl shadow p-5 outline-none resize-none border border-gray-300"
-        />
+        <div className="w-full">
+          <NotesEditor
+            initialContent={note.content}
+            onChange={(html) => updateNote('content', html)}
+          />
+        </div>
 
         <div className="flex gap-3">
           <button

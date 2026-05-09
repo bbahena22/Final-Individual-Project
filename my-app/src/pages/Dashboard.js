@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
+import NoteContentPreview from '../components/NoteContentPreview';
 import { Link, useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 
@@ -62,9 +63,10 @@ function Dashboard({ notes, tasks, pages, setPages, folders, setFolders }) {
             {notes.slice(0, 3).map((note) => (
               <div key={note.id} className="border rounded-xl p-3">
                 <p className="font-semibold">{note.title}</p>
-                <p className="text-sm text-gray-500 truncate">
-                  {note.content}
-                </p>
+                <NoteContentPreview
+                  html={note.content}
+                  className="text-sm text-gray-500 line-clamp-2 whitespace-normal max-w-none"
+                />
               </div>
             ))}
           </div>
