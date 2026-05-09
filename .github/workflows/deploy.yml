@@ -10,6 +10,9 @@ permissions:
 jobs:
   build-and-deploy:
     # Opt into Node.js 24 for JavaScript actions to avoid Node 20 deprecation failures
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
     runs-on: ubuntu-latest
@@ -37,11 +40,11 @@ jobs:
           elif [ -d "my-app/dist" ]; then echo "dir=my-app/dist" >> $GITHUB_OUTPUT; 
           else echo "dir=my-app/build" >> $GITHUB_OUTPUT; fi
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ steps.determine_dir.outputs.dir }}
-          publish_branch: gh-pages
-          user_name: github-actions[bot]
-          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          path: ${{ steps.determine_dir.outputs.dir }}
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
