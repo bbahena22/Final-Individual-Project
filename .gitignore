@@ -1,0 +1,6 @@
+# Ignore root dependencies and local clutter
+node_modules/
+.DS_Store
+
+# Keep CRA build outputs out of source control at the workspace root
+build/
