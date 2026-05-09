@@ -23,7 +23,8 @@ jobs:
       - name: Install dependencies and build
         working-directory: ./my-app
         run: |
-          npm ci
+          # Use npm install with legacy peer deps to avoid failing on lockfile drift
+          npm install --legacy-peer-deps
           npm run build
 
       - id: determine_dir
