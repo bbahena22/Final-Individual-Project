@@ -219,7 +219,7 @@ function Sidebar() {
             title="Add page to folder"
             aria-label="Add page to folder"
           >
-            <Plus size={14} />
+            <span aria-hidden="true">+</span>
             <span className="whitespace-nowrap">Add Page</span>
           </button>
           <button onClick={(e) => onContext(e, folder, 'folder')} className="shrink-0 p-1 text-gray-300 hover:text-white">
@@ -361,6 +361,9 @@ function Sidebar() {
           )}
           {ctx.type === 'folder' && (
             <>
+              <button onClick={(e) => { e.stopPropagation(); createPageInFolder(ctx.item.id); }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 w-full text-left text-gray-900">
+                <Plus size={14} /> Add Page
+              </button>
               <button onClick={(e) => { e.stopPropagation(); renameItem(ctx.item.id, 'folder'); }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 w-full text-left text-gray-900">
                 <Edit2 size={14} /> Rename
               </button>
