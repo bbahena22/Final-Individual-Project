@@ -34,6 +34,9 @@ jobs:
           # Use npm install with legacy peer deps to avoid failing on lockfile drift
           npm install --legacy-peer-deps
           npm run build
+          # GitHub Pages SPA fallback for deep links (e.g. /notes, /favorites)
+          if [ -f "build/index.html" ]; then cp build/index.html build/404.html; fi
+          if [ -f "dist/index.html" ]; then cp dist/index.html dist/404.html; fi
 
       - id: determine_dir
         name: Determine publish directory
