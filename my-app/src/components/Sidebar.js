@@ -213,8 +213,14 @@ function Sidebar() {
             <ChevronRight size={14} className={`transition-transform duration-300 ${isExpanded ? 'rotate-90' : 'rotate-0'}`} />
           </button>
           <span className="text-sm text-white flex-1">📁 {folder.title}</span>
-          <button onClick={() => createPageInFolder(folderId)} className="p-1 text-gray-300 hover:text-white" title="Add page to folder">
+          <button
+            onClick={() => createPageInFolder(folderId)}
+            className="inline-flex shrink-0 items-center gap-1 rounded-md border border-white/15 bg-white/10 px-2 py-1 text-xs font-medium text-white transition hover:bg-white/20"
+            title="Add page to folder"
+            aria-label="Add page to folder"
+          >
             <Plus size={14} />
+            <span>Add Page</span>
           </button>
           <button onClick={(e) => onContext(e, folder, 'folder')} className="p-1 text-gray-300 hover:text-white">
             <MoreHorizontal size={14} />
