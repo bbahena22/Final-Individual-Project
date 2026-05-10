@@ -45,7 +45,7 @@ export default function App() {
   const [folders, setFolders] = useLocalStorage('folders', []);
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route
           path="/"
