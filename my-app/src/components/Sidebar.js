@@ -215,12 +215,11 @@ function Sidebar() {
           <span className="min-w-0 flex-1 truncate text-sm text-white">📁 {folder.title}</span>
           <button
             onClick={() => createPageInFolder(folderId)}
-            className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-300/40 bg-emerald-500 px-3 py-1 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-400"
+            className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded border border-gray-700 bg-black/20 text-sm font-semibold text-gray-300 transition hover:bg-gray-800 hover:text-white"
             title="Add page to folder"
             aria-label="Add page to folder"
           >
             <span aria-hidden="true">+</span>
-            <span className="whitespace-nowrap">Add Page</span>
           </button>
           <button onClick={(e) => onContext(e, folder, 'folder')} className="shrink-0 p-1 text-gray-300 hover:text-white">
             <MoreHorizontal size={14} />
