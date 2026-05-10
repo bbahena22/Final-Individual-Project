@@ -55,7 +55,7 @@ function LocationClock() {
         try {
           const apiKey = process.env.REACT_APP_WORLD_TIME_API_KEY;
           if (!apiKey) {
-            applyFallback('Missing API key; showing local time');
+            applyFallback('Showing your local time');
             return;
           }
 
