@@ -208,21 +208,21 @@ function Sidebar() {
 
     return (
       <div key={folderId}>
-        <div className="flex items-center justify-between ml-6 hover:bg-black rounded px-1 py-1">
-          <button onClick={() => toggleFolder(folderId)} className="p-0 transition-transform duration-300">
+        <div className="ml-6 flex items-center gap-2 rounded px-1 py-1 hover:bg-black">
+          <button onClick={() => toggleFolder(folderId)} className="shrink-0 p-0 transition-transform duration-300">
             <ChevronRight size={14} className={`transition-transform duration-300 ${isExpanded ? 'rotate-90' : 'rotate-0'}`} />
           </button>
-          <span className="text-sm text-white flex-1">📁 {folder.title}</span>
+          <span className="min-w-0 flex-1 truncate text-sm text-white">📁 {folder.title}</span>
           <button
             onClick={() => createPageInFolder(folderId)}
-            className="inline-flex shrink-0 items-center gap-1 rounded-md border border-white/15 bg-white/10 px-2 py-1 text-xs font-medium text-white transition hover:bg-white/20"
+            className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-300/40 bg-emerald-500 px-3 py-1 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-400"
             title="Add page to folder"
             aria-label="Add page to folder"
           >
             <Plus size={14} />
-            <span>Add Page</span>
+            <span className="whitespace-nowrap">Add Page</span>
           </button>
-          <button onClick={(e) => onContext(e, folder, 'folder')} className="p-1 text-gray-300 hover:text-white">
+          <button onClick={(e) => onContext(e, folder, 'folder')} className="shrink-0 p-1 text-gray-300 hover:text-white">
             <MoreHorizontal size={14} />
           </button>
         </div>
