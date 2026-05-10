@@ -336,8 +336,8 @@ function Sidebar() {
 
       {ctx.visible && (
         <div
-          className="absolute z-50 bg-white text-black rounded shadow-lg w-44"
-          style={{ left: ctx.x, top: ctx.y }}
+          className="fixed z-50 bg-white text-black rounded shadow-lg w-44"
+          style={{ left: `${ctx.x}px`, top: `${ctx.y}px` }}
           onClick={(e) => e.stopPropagation()}
         >
           {ctx.type === 'page' && (
